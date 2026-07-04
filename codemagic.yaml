@@ -1,0 +1,59 @@
+# Codemagic CI/CD Configuration for Wolf Tap & Earn (Capacitor Android Build)
+# This file automatically builds your React + Vite web app, wraps it into a native Android app,
+# and generates both .apk (for direct phone installation) and .aab (for Play Store) files.
+
+workflows:
+  android-build:
+    name: Wolf Tap Android Production Build (.apk & .aab)
+    max_build_duration: 60
+    instance_type: mac_mini_m1  # High performance macOS/Linux runner
+    environment:
+      groups:
+        - keystore_credentials  # For secure code-signing keys (configure in Codemagic UI if needed)
+      vars:
+        JAVA_VERSION: "17"      # Required JDK version for modern Gradle and Capacitor 6
+        NODE_VERSION: "20.x"    # Stable Node version for Vite build
+      node: 20.x
+    triggering:
+      events:
+        - push
+      branches:
+        - main
+    scripts:
+      - name: Set up Java 17
+        script: |
+          # Ensure Java 17 is active
+          sdk use java 17.0.10-sem || echo "Java version already set or sdkman not available"
+      - name: Install Node modules
+        script: |
+          npm ci
+      - name: Build Web Application (React + Vite)
+        script: |
+          # This compiles our React source code into the static /dist directory
+          npm run build
+      - name: Sync with Android Native Platform (Capacitor)
+        script: |
+          # Copy compiled web assets from /dist to android/app/src/main/assets/public
+          npx cap sync
+      - name: Build Android Artifacts (APK & AAB)
+        script: |
+          cd android
+          
+          # Clean previous builds
+          ./gradlew clean
+          
+          # Build Release APK (For direct phone testing)
+          ./gradlew assembleRelease
+          
+          # Build Release AAB (Android App Bundle for Google Play Store)
+          ./gradlew bundleRelease
+    artifacts:
+      - android/app/build/outputs/apk/release/*.apk
+      - android/app/build/outputs/bundle/release/*.aab
+    publishing:
+      email:
+        recipients:
+          - mizaanm368@gmail.com
+        notify:
+          on_success: true
+          on_failure: true

@@ -1,0 +1,8 @@
+{
+  "appId": "com.wolftap.earn",
+  "appName": "Wolf Tap & Earn",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}

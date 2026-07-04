@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Wolf Tap &amp; Earn</string>
+    <string name="title_activity_main">Wolf Tap &amp; Earn</string>
+    <string name="package_name">com.wolftap.earn</string>
+    <string name="custom_url_scheme">com.wolftap.earn</string>
+</resources>
