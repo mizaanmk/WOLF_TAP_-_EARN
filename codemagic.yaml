@@ -14,6 +14,7 @@ workflows:
         JAVA_VERSION: "21"      # Required JDK version for modern Gradle and Android 14 builds
         NODE_VERSION: "22"      # Stable Node version for Vite build
       node: 22
+      java: 21
     triggering:
       events:
         - push
@@ -37,19 +38,16 @@ workflows:
           npx cap sync
       - name: Build Android Artifacts (APK & AAB)
         script: |
-          # Ensure Java 21 is active in this step's shell session
-          sdk use java 21.0.2-sem || sdk use java 21.0.2-tem || sdk use java 21.0.1-tem || echo "Using system Java default"
-          
           cd android
           
           # Clean previous builds
-          ./gradlew clean -Dorg.gradle.java.home="$JAVA_HOME"
+          export JAVA_HOME=$JAVA_HOME_21_0 && ./gradlew clean
           
           # Build Release APK (For direct phone testing)
-          ./gradlew assembleRelease -Dorg.gradle.java.home="$JAVA_HOME"
+          export JAVA_HOME=$JAVA_HOME_21_0 && ./gradlew assembleRelease
           
           # Build Release AAB (Android App Bundle for Google Play Store)
-          ./gradlew bundleRelease -Dorg.gradle.java.home="$JAVA_HOME"
+          export JAVA_HOME=$JAVA_HOME_21_0 && ./gradlew bundleRelease
     artifacts:
       - android/app/build/outputs/apk/release/*.apk
       - android/app/build/outputs/bundle/release/*.aab
