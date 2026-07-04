@@ -12,8 +12,8 @@ workflows:
         - keystore_credentials  # For secure code-signing keys (configure in Codemagic UI if needed)
       vars:
         JAVA_VERSION: "17"      # Required JDK version for modern Gradle and Capacitor 6
-        NODE_VERSION: "20"      # Stable Node version for Vite build
-      node: 20
+        NODE_VERSION: "22"      # Stable Node version for Vite build
+      node: 22
     triggering:
       events:
         - push
