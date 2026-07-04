@@ -11,7 +11,7 @@ workflows:
       groups:
         - keystore_credentials  # For secure code-signing keys (configure in Codemagic UI if needed)
       vars:
-        JAVA_VERSION: "17"      # Required JDK version for modern Gradle and Capacitor 6
+        JAVA_VERSION: "21"      # Required JDK version for modern Gradle and Android 14 builds
         NODE_VERSION: "22"      # Stable Node version for Vite build
       node: 22
     triggering:
@@ -20,10 +20,10 @@ workflows:
       branch_patterns:
         - pattern: main
     scripts:
-      - name: Set up Java 17
+      - name: Set up Java 21
         script: |
-          # Ensure Java 17 is active
-          sdk use java 17.0.10-sem || echo "Java version already set or sdkman not available"
+          # Ensure Java 21 is active
+          sdk use java 21.0.2-sem || sdk use java 21.0.2-tem || sdk use java 21.0.1-tem || echo "Java version already set or sdkman not available"
       - name: Install Node modules
         script: |
           npm ci
