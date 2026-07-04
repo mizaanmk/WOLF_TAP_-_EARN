@@ -37,16 +37,19 @@ workflows:
           npx cap sync
       - name: Build Android Artifacts (APK & AAB)
         script: |
+          # Ensure Java 21 is active in this step's shell session
+          sdk use java 21.0.2-sem || sdk use java 21.0.2-tem || sdk use java 21.0.1-tem || echo "Using system Java default"
+          
           cd android
           
           # Clean previous builds
-          ./gradlew clean
+          ./gradlew clean -Dorg.gradle.java.home="$JAVA_HOME"
           
           # Build Release APK (For direct phone testing)
-          ./gradlew assembleRelease
+          ./gradlew assembleRelease -Dorg.gradle.java.home="$JAVA_HOME"
           
           # Build Release AAB (Android App Bundle for Google Play Store)
-          ./gradlew bundleRelease
+          ./gradlew bundleRelease -Dorg.gradle.java.home="$JAVA_HOME"
     artifacts:
       - android/app/build/outputs/apk/release/*.apk
       - android/app/build/outputs/bundle/release/*.aab
