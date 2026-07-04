@@ -1,0 +1,6 @@
+{
+  "name": "Tap Coin Earner",
+  "description": "A responsive, modern mobile tap coin earning game with real-time feedback, daily rewards, customizable tasks, and offline persistence.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
