@@ -17,8 +17,8 @@ workflows:
     triggering:
       events:
         - push
-      branches:
-        - main
+      branch_patterns:
+        - pattern: main
     scripts:
       - name: Set up Java 17
         script: |
@@ -54,6 +54,3 @@ workflows:
       email:
         recipients:
           - mizaanm368@gmail.com
-        notify:
-          on_success: true
-          on_failure: true
