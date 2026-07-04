@@ -35,8 +35,17 @@ workflows:
         script: |
           # Copy compiled web assets from /dist to android/app/src/main/assets/public
           npx cap sync
+      - name: Set Java Home for Gradle
+        script: |
+          echo "sdkman_auto_answer=true" >> "$ROOT_DIR/.sdkman/etc/config"
+          export JAVA_HOME="$HOME/.sdkman/candidates/java/current"
+          export PATH="$JAVA_HOME/bin:$PATH"
       - name: Build Android Artifacts (APK & AAB)
         script: |
+          # Force Java 21 for Gradle
+          export JAVA_HOME="$HOME/.sdkman/candidates/java/current"
+          export PATH="$JAVA_HOME/bin:$PATH"
+          
           cd android
           
           # Clean previous builds
